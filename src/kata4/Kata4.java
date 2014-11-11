@@ -13,7 +13,14 @@ public class Kata4 {
         PersonLoader loader = new DBPersonLoader(connection);
         
         HistogramBuilder<Person> builder = new HistogramBuilder<>(loader.load());
-        new ConsoleHistogramViewer<Person>().show(builder.build());
+        new ConsoleHistogramViewer<String>().show(builder.build(new AttributeExtractor<Person, String>() {
+
+            @Override
+            public String extract(Person entity) {
+                return entity.getMail().getDomain();
+            }
+            
+        }));
         
     }
 
